@@ -1,0 +1,14 @@
+﻿namespace terentevalexandrKt_31_20.Database.Helpers
+{
+    public class ColumnType
+    {
+        public const string Date = "datetime";
+        public const string String = "nvarchar";
+        public const string Text = "ntext";
+        public const string Bool = "binary";
+        public const string Int = "int";
+        public const string Long = "bigint";
+        public const string Decimal = "money";
+        public const string Double = "numeric(9,2)";
+    }
+}
