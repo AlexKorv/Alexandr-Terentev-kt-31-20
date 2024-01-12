@@ -4,6 +4,7 @@ using NLog.Web;
 using terentevalexandrKt_31_20.Models;
 using terentevalexandrKt_31_20.Database;
 using terentevalexandrKt_31_20.ServiceExtensions;
+using terentevalexandrKt_31_20.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -35,6 +36,8 @@ try
         app.UseSwagger();
         app.UseSwaggerUI();
     }
+
+    app.UseMiddleware<ExceptionHandlerMiddleware>();
 
     app.UseAuthorization();
 
