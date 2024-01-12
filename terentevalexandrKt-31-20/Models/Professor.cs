@@ -1,4 +1,6 @@
-﻿namespace terentevalexandrKt_31_20.Models
+﻿using System.Text.RegularExpressions;
+
+namespace terentevalexandrKt_31_20.Models
 {
     public class Professor
     {
@@ -8,6 +10,11 @@
 
         public string FirstName { get; set; }
 
-        public string? MiddleName { get; set; }           
+        public string? MiddleName { get; set; }     
+        
+        public bool isValidFirstName()
+        {
+            return Regex.Match(FirstName, @"^([А-Я]|Ё)([а-я]|ё)+").Success;
+        }
     }
 }
