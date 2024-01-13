@@ -135,7 +135,7 @@ try
         }
         var educationalsubject2 = new EducationalSubject
         {
-            Id = 1,
+            Id = 2,
             Name = "Алгебра и геометрия"
         };
         if (await _context.Set<EducationalSubject>()

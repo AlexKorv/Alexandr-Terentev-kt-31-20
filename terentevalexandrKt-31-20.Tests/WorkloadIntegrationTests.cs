@@ -92,11 +92,84 @@ namespace terentevalexandrKt_31_20.Tests
             };
             var workloadResult = await workloadService.AddWorkloadAsync(workload, CancellationToken.None);
 
-            // Assert
             Assert.Equal(4, workloadResult.Id);
             Assert.Equal(1, workloadResult.ProfessorId);
             Assert.Equal(1, workloadResult.EducationalSubjectId);
             Assert.Equal(40, workloadResult.NumberOfHours);
+
+        }
+
+        [Fact]
+        public async Task GetProfessorsByEducationalSubjectAsync_Length_Test()
+        {
+            // Arrange
+            var ctx = new ApplicationDbContext(_dbContextOptions);
+            var workloadService = new WorkloadService(ctx);
+            var professors = new List<Professor>
+            {
+                new Professor
+                {
+                    FirstName = "Иван",
+                    LastName = "Петров",
+                    MiddleName = "Евгеньевич"
+                },
+                new Professor
+                {
+                    FirstName = "Олег",
+                    LastName = "Зеленов",
+                    MiddleName = "Владимирович"
+                },
+            };
+            await ctx.Set<Professor>().AddRangeAsync(professors);
+
+            var educationalsubjects = new List<EducationalSubject>
+            {
+                new EducationalSubject
+                {
+                    Name = "Программирование"
+                },
+                new EducationalSubject
+                {
+                    Name = "Алгебра и геометрия"
+                },
+            };
+            await ctx.Set<EducationalSubject>().AddRangeAsync(educationalsubjects);
+
+            var workloads = new List<Workload>
+            {
+                new Workload
+                {
+                    ProfessorId = 1,
+                    EducationalSubjectId = 1,
+                    NumberOfHours = 10
+                },
+                new Workload
+                {
+                    ProfessorId = 1,
+                    EducationalSubjectId = 2,
+                    NumberOfHours = 20
+                },
+                new Workload
+                {
+                    ProfessorId = 2,
+                    EducationalSubjectId = 1,
+                    NumberOfHours = 30
+                }
+            };
+            await ctx.Set<Workload>().AddRangeAsync(workloads);
+
+            await ctx.SaveChangesAsync();
+
+            var workload = new Workload
+            {
+                ProfessorId = 1,
+                EducationalSubjectId = 1,
+                NumberOfHours = 40
+            };
+
+            var workloadsResult = await workloadService.GetProfessorsByEducationalSubjectAsync(1, CancellationToken.None);
+
+            Assert.Equal(2, workloadsResult.Length);
         }
     }
 }

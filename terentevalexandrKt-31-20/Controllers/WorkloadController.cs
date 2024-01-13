@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using terentevalexandrKt_31_20.Database;
+using terentevalexandrKt_31_20.Filters.WorkloadFilters;
 using terentevalexandrKt_31_20.Interfaces.WorkloadInterfaces;
 using terentevalexandrKt_31_20.Models;
 
@@ -36,6 +37,22 @@ namespace terentevalexandrKt_31_20.Controllers
             workload.Professor = _dbContext.Set<Professor>().Find(workload.ProfessorId);
             workload.EducationalSubject = _dbContext.Set<EducationalSubject>().Find(workload.EducationalSubjectId);
             var resp = await _workloadService.UpdateWorkloadAsync(workload, cancellationToken);
+
+            return Ok(resp);
+        }
+
+        [HttpPost("GetWorkloadsByProfessor")]
+        public async Task<IActionResult> GetWorkloadsBProfessorAsync(WorkloadProfessorFilter filter, CancellationToken cancellationToken = default)
+        {
+            var resp = await _workloadService.GetWorkloadsBProfessorAsync(filter, cancellationToken);
+
+            return Ok(resp);
+        }
+
+        [HttpPost("GetWorkloadsByEducationalSubject")]
+        public async Task<IActionResult> GetWorkloadsByEducationalSubjectAsync(WorkloadEducationalSubjectFilter filter, CancellationToken cancellationToken = default)
+        {
+            var resp = await _workloadService.GetWorkloadsByEducationalSubjectAsync(filter, cancellationToken);
 
             return Ok(resp);
         }
